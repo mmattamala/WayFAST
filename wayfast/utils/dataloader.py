@@ -9,7 +9,6 @@ import torch.utils.data as DataLoader
 
 class TraversabilityDataset(DataLoader.Dataset):
     def __init__(self, params, transform):
-        print("Initializing dataset")
         self.root           = params.data_path
         self.transform      = transform
         self.output_size    = params.output_size
@@ -17,9 +16,11 @@ class TraversabilityDataset(DataLoader.Dataset):
         self.depth_mean     = params.depth_mean
         self.depth_std      = params.depth_std
         self.bin_width      = 0.2
+
+        print(f"Initializing dataset from path: {self.root}")
         
         # Read lines in csv file
-        self.data = pd.read_csv(params.csv_path)
+        self.data = pd.read_csv(f"{params.data_path}/data.csv")
 
         # Prepare data and get max and min values
         self.color_fname, self.depth_fname, self.path_fname, self.mu_fname, self.nu_fname = self.prepare(self.data)
